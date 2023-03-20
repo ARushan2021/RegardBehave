@@ -2,9 +2,10 @@ import time
 
 from behave import *
 from selenium import webdriver
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
-
+# behave -i test_regard.feature
 @step('open website {website}')
 def step_one(self, website):
     self.drv = webdriver.Chrome('chromedriver.exe')
@@ -13,7 +14,7 @@ def step_one(self, website):
     time.sleep(2)
     titlesite = self.drv.title
     title = 'Регард - интернет магазин компьютеров и комплектующих, техники для офиса и электроники. Сборка ПК. Доставка по России'
-    assert titlesite in title
+    assert titlesite == title
     time.sleep(2)
 
 @step('open subsection {section} and subsection {sub_section}')
@@ -32,8 +33,9 @@ def submenu(self, section, sub_section):
 def input_filter(self, min_price, company):
     # Ставим фильтр по минимальной цене
     self.drv.find_element(By.XPATH, "//div[2]/div/div/div/div/div/div/div[1]/section/div[2]/div/div/div/div/input[@name='min']").send_keys(min_price)
+    time.sleep(2)
     # Разворачиваем список всех производителей
-    self.drv.find_element(By.XPATH, "//li[33]/span[@class='ListingFilters_showMore__btn__dw-Xb']").click()
+    self.drv.find_element(By.XPATH, "//li/span[@class='ListingFilters_showMore__btn__dw-Xb']").click()
     # Выбираем нужного производителя
     self.drv.find_element(By.XPATH, "//label[text()='" + company + "']").click()
     time.sleep(2)
@@ -46,7 +48,25 @@ def prod_on_page(self):
 
 @step('the first product found in the search')
 def seach_first_priduct(self):
-    first_priduct = self.drv.find_element(By.XPATH, "//div[contains(@class,'CardText_wrap__1wwDN')]/a/h6").text
+    self.first_priduct = self.drv.find_element(By.XPATH, "//div[contains(@class,'CardText_wrap__1wwDN')]/a/h6").text
+    self.drv.find_element(By.XPATH, "//*[@id='searchInput']").send_keys(self.first_priduct)
+    self.drv.find_element(By.XPATH, "//*[@id='searchInput']").send_keys(Keys.ENTER)
+    time.sleep(2)
+
+@step('assert count products on the page 2')
+def accert_amount_priduct(self):
+    amount_priduct_seach = self.drv.find_element(By.XPATH, "//span[contains(@class, 'ListingLayout_count')]").text
+    assert amount_priduct_seach == "1 товар"
+    time.sleep(2)
+@step('assert first seach product')
+def accert_seach_priduct(self):
+    name_first_value = self.drv.find_element(By.XPATH, "//div[contains(@class,'CardText_wrap__1wwDN')]/a/h6").text
+    assert self.first_priduct == name_first_value
+    time.sleep(2)
+
+
+
+
 
 
 

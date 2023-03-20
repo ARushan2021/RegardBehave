@@ -38,11 +38,17 @@ def input_filter(self, min_price, company):
     self.drv.find_element(By.XPATH, "//label[text()='" + company + "']").click()
     time.sleep(2)
 
+@step('assert count products on the page')
+def prod_on_page(self):
+    products_on_page = self.drv.find_element(By.XPATH, "//span[@class='Pagination_countSetter__count__3f3n_']").text
+    assert products_on_page == "по 24"
+    time.sleep(2)
+
 @step('the first product found in the search')
 def seach_first_priduct(self):
-    products_on_page = self.drv.find_element(By.XPATH, "//span[@class='Pagination_countSetter__count__3f3n_']").get_text()
-    assert products_on_page == "по 24"
-    time.sleep(7)
+    first_priduct = self.drv.find_element(By.XPATH, "//div[contains(@class,'CardText_wrap__1wwDN')]/a/h6").text
+
+
 
 
 

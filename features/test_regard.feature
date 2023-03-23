@@ -4,19 +4,22 @@ Feature: First test
   Scenario Outline: Seach in regard.ru
 
 #И используем наши шаги.
-    Given open website http://regard.ru
-    When open subsection <section> and subsection <sub_section>
-    When put the filter on min price: <min_price> and company: <company>
-    When assert count products on the page
-    When the first product found in the search
-    When assert count products on the page 2
-    When assert first seach product
+    Given открываем сайт http://regard.ru
+    When открываем каталог, в каталоге <section> и <sub_section>
+    When устанавливаем фильтр минимальная цена: <min_price> и производитель: <company>
+    When проверяем кол.во найденных товаров на странице
+    When копируем название первого товара и вставляем его в строку поиска
+    When снова проверяем кол.во найденных товаров на странице
+    When проверяем, что найденный товар соответствует, товару вставили встроку поиска
 
     Examples: Electronics
       | section   | sub_section |min_price|company|
       | Периферия | Мониторы    |1000     |Samsung|
       | Периферия | Мыши        |400      |A4Tech |
       | Комплектующие для ПК | Видеокарты        |5000      |ASUS |
+
+
+  # behave -i test_regard.feature
 
 
 

@@ -16,7 +16,7 @@ Feature: First test
       | section   | sub_section |min_price|company|
       | Периферия | Мониторы    |1000     |Samsung|
       | Периферия | Мыши        |400      |A4Tech |
-      | Комплектующие для ПК | Видеокарты        |50000000      |ASUS |
+      | Комплектующие для ПК | Видеокарты        |5000     |ASUS |
 
 
   # behave -i test_regard.feature  -запуск теста behave

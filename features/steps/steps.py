@@ -4,6 +4,7 @@ from behave import *
 from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
+from allure_behave.hooks import allure_report
 
 
 
@@ -66,6 +67,7 @@ def accert_seach_priduct(self):
     assert self.first_priduct == name_first_value
     time.sleep(2)
 
+allure_report("path/to/result/dir")
 
 
 

@@ -16,11 +16,18 @@ Feature: First test
       | section   | sub_section |min_price|company|
       | Периферия | Мониторы    |1000     |Samsung|
       | Периферия | Мыши        |400      |A4Tech |
-      | Комплектующие для ПК | Видеокарты        |5000      |ASUS |
+      | Комплектующие для ПК | Видеокарты        |50000000      |ASUS |
 
 
-  # behave -i test_regard.feature
+  # behave -i test_regard.feature  -запуск теста behave
+  # behave -f allure_behave.formatter:AllureFormatter -o reports/ features  -формирование reports в json
+  # allure serve reports/  -формирование reports в html
 
+  # Использованные библиотеки:
+  # Selenium 4.8.2
+  # behave 1.2.6
+  # allure-behave 2.13.1
+  # allure 2.21.0
 
 
 

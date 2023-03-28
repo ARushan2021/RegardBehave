@@ -1,80 +1,72 @@
 import time
 
 from behave import *
-from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
-from allure_behave.hooks import allure_report
+
+from features.locators import regard_locators
 
 
+@step('открываем сайт "{site}"')
+def open_site(context, site):
+    context.drv.get(site)
+    context.drv.maximize_window()
+    time.sleep(2)
+    title_site = context.drv.title
+    title = 'Регард - интернет магазин'
+    assert title_site[0:25] == title, f'Заглавие сайта не совпадает: {title_site[0:25]}'
 
-@step('открываем сайт {website}')
-def step_one(self, website):
-    self.drv = webdriver.Chrome('chromedriver.exe')
-    self.drv.get(website)
-    self.drv.maximize_window()
-    time.sleep(2)
-    titlesite = self.drv.title
-    title = 'Регард - интернет магазин компьютеров и комплектующих, техники для офиса и электроники. Сборка ПК. Доставка по России'
-    assert titlesite == title
 
-    time.sleep(2)
+@step('открываем каталог {section} и {sub_section}')
+def submenu(context, section, sub_section):
+    context.drv.find_element(By.XPATH, regard_locators.get("button_catalog")).click()
+    time.sleep(3)
+    catalog_name = regard_locators.get("catalog_name").replace('section_old', section)
+    context.drv.find_element(By.XPATH, catalog_name).click()
+    time.sleep(3)
+    sub_catalog_name = regard_locators.get("sub_catalog_name").replace('sub_section_old', sub_section)
+    context.drv.find_element(By.XPATH, sub_catalog_name).click()
+    time.sleep(3)
 
-@step('открываем каталог, в каталоге {section} и {sub_section}')
-def submenu(self, section, sub_section):
-    # Нажимаем кнопку каталог
-    self.drv.find_element(By.XPATH, "//button[contains(@class, 'NavigationBar_burgerButton')]").click()
-    time.sleep(2)
-    # Нажимаем на раздел в каталоге
-    self.drv.find_element(By.XPATH, "//div[text()='" + section + "']/ancestor::a").click()
-    time.sleep(2)
-    # Нажимем на нужный раздел
-    self.drv.find_element(By.XPATH, "//div/p[contains(text(),'" + sub_section + "')]").click()
-    time.sleep(2)
 
-@step('устанавливаем фильтр минимальная цена: {min_price} и производитель: {company}')
-def input_filter(self, min_price, company):
-    # Ставим фильтр по минимальной цене
-    self.drv.find_element(By.XPATH, "//input[@name='min']").send_keys(min_price)
-    time.sleep(2)
-    # Разворачиваем список всех производителей
-    self.drv.find_element(By.XPATH, "//li/span[@class='ListingFilters_showMore__btn__mNrGe']").click()
-    # Выбираем нужного производителя
-    self.drv.find_element(By.XPATH, "//label[text()='" + company + "']").click()
-    time.sleep(2)
+@step('устанавливаем фильтр цена: {min_max_price} значение цены: {price} и производитель: {company}')
+def input_filter(context, min_max_price, price, company):
+    min_or_max = regard_locators.get("min_or_max_price").replace('min_max', min_max_price)
+    context.drv.find_element(By.XPATH, min_or_max).send_keys(price)
+    time.sleep(5)
+    context.drv.find_element(By.XPATH, regard_locators.get("all_company")).click()
+    time.sleep(5)
+    company_name = regard_locators.get("company_name").replace('company_old', company)
+    context.drv.find_element(By.XPATH, company_name).click()
+    time.sleep(5)
+
 
 @step('проверяем кол.во найденных товаров на странице')
-def prod_on_page(self):
-    products_on_page = self.drv.find_element(By.XPATH, "//span[@class='Pagination_countSetter__count__Ml6rE']").text
-    assert products_on_page == "по 24"
+def prod_on_page(context):
+    products_on_page = context.drv.find_element(By.XPATH, regard_locators.get("prod_on_page")).text
+    assert products_on_page == "по 24", 'На странице отображается не 24 товара!'
     time.sleep(2)
+
 
 @step('копируем название первого товара и вставляем его в строку поиска')
-def seach_first_priduct(self):
-    self.first_priduct = self.drv.find_element(By.XPATH, "//div[contains(@class,'CardText_wrap__YYHuc')]/a/h6").text
-    self.drv.find_element(By.XPATH, "//*[@id='searchInput']").send_keys(self.first_priduct)
-    self.drv.find_element(By.XPATH, "//*[@id='searchInput']").send_keys(Keys.ENTER)
-    time.sleep(2)
+def search_first_product(context):
+    first_product = context.drv.find_element(By.XPATH, regard_locators.get("first_product_name")).text
+    context.drv.find_element(By.XPATH, regard_locators.get("search_input")).send_keys(first_product)
+    context.drv.find_element(By.XPATH, regard_locators.get("search_input")).send_keys(Keys.ENTER)
+    time.sleep(8)
+
 
 @step('снова проверяем кол.во найденных товаров на странице')
-def accert_amount_priduct(self):
-    amount_priduct_seach = self.drv.find_element(By.XPATH, "//span[contains(@class, 'ListingLayout_count')]").text
-    assert amount_priduct_seach == "1 товар"
-    time.sleep(2)
-@step('проверяем, что найденный товар соответствует, товару вставили встроку поиска')
-def accert_seach_priduct(self):
-    name_first_value = self.drv.find_element(By.XPATH, "//div[contains(@class,'CardText_wrap__YYHuc')]/a/h6").text
-    assert self.first_priduct == name_first_value
+def accert_amount_priduct(context):
+    amount_product_seach = context.drv.find_element(By.XPATH, regard_locators.get("amount_prod_seach")).text
+    assert amount_product_seach == "1 товар", f'На странице отображается {amount_product_seach}, а должен один!'
     time.sleep(2)
 
-allure_report("path/to/result/dir")
 
-
-
-
-
-
-
-
-
-
+@step('проверяем, что найденный товар соответствует товару, вставленному в строку поиска')
+def accert_seach_priduct(context):
+    name_first_value = context.drv.find_element(By.XPATH, regard_locators.get("name_first_value")).text
+    search_product = context.drv.find_element(By.XPATH, regard_locators.get("search_input")).get_attribute('value')
+    assert search_product == name_first_value, \
+        'Найденный товар не соответствует товару, вставленному в строку поиска!'
+    time.sleep(2)

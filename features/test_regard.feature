@@ -18,7 +18,7 @@ Feature: Тестирование regard.ru
 
 
   # behave -запуск теста behave
-  # behave -f allure_behave.formatter:AllureFormatter -o reports/ features  -формирование reports в json
+  # behave -f allure_behave.formatter:AllureFormatter -o reports/ features  - запуск теста и формирование reports в json
   # allure serve reports/  -формирование reports в html
 
   # Использованные библиотеки:

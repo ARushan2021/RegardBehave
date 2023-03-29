@@ -8,6 +8,6 @@ regard_locators = {
     "prod_on_page": "//span[@class='Pagination_countSetter__count__Ml6rE']",
     "first_product_name": "//div[contains(@class,'CardText_wrap__YYHuc')]/a/h6",
     "search_input": "//*[@id='searchInput']",
-    "amount_prod_seach": "//span[contains(@class, 'ListingLayout_count')]",
-    "name_first_value": "//div[contains(@class,'CardText_wrap__YYHuc')]/a/h6"
+    "amount_prod_search": "//span[contains(@class, 'ListingLayout_count')]",
+    "loading": "//svg[@class='Spinner_icon__1y9mU']/circle"
 }

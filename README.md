@@ -16,5 +16,5 @@
 
   # Использованные библиотеки:
   - Selenium 4.8.2
-  - behave 1.2.6
-  - allure-behave 2.13.1
+  - Behave 1.2.6
+  - Allure-behave 2.13.1

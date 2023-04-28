@@ -21,8 +21,3 @@ Feature: Тестирование regard.ru
   # behave --no-capture -запуск теста behave с print() в terminal
   # behave -f allure_behave.formatter:AllureFormatter -o reports/ features  - запуск теста и формирование reports в json
   # allure serve reports/  -формирование reports в html
-
-
-
-
-

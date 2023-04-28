@@ -22,12 +22,6 @@ Feature: Тестирование regard.ru
   # behave -f allure_behave.formatter:AllureFormatter -o reports/ features  - запуск теста и формирование reports в json
   # allure serve reports/  -формирование reports в html
 
-  # Использованные библиотеки:
-  # Selenium 4.8.2
-  # behave 1.2.6
-  # allure-behave 2.13.1
-  # allure 2.21.0
-
 
 
 
